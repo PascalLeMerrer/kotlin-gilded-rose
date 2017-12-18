@@ -3,75 +3,76 @@ package com.gildedrose
 class GildedRose(var items: Array<Item>) {
 
     fun updateQuality() {
-        for (i in items.indices) {
+        for (item in items) {
 
-            decreaseSellIn(i)
+            decreaseSellIn(item)
 
             when {
-                itemIsBackstagePass(i) -> updateBackstagePassQuality(i)
-                itemIsBrie(i) -> {
-                    increaseItemQuality(i)
-                    if (items[i].sellIn < 0) {
-                        increaseItemQuality(i)
+                isBackstagePass(item) -> updateBackstagePassQuality(item)
+                isBrie(item) -> {
+                    increaseQuality(item)
+                    if (item.sellIn < 0) {
+                        increaseQuality(item)
                     }
                 }
-                itemIsConjured(i) -> {
-                    decreaseItemQuality(i)
-                    decreaseItemQuality(i)
+                isConjured(item) -> {
+                    decreaseQuality(item)
+                    decreaseQuality(item)
                 }
+                isSulfuras(item) -> {}
                 else -> {
-                    decreaseItemQuality(i)
-                    if (items[i].sellIn < 0) {
-                        decreaseItemQuality(i)
+                    decreaseQuality(item)
+                    if (item.sellIn < 0) {
+                        decreaseQuality(item)
                     }
                 }
             }
         }
     }
 
-    private fun updateBackstagePassQuality(i: Int) {
-        if (items[i].sellIn < 0) {
-            items[i].quality = 0
+    private fun updateBackstagePassQuality(item: Item) {
+        if (item.sellIn < 0) {
+            item.quality = 0
             return
         }
 
-        increaseItemQuality(i)
+        increaseQuality(item)
 
-        if (items[i].sellIn < 10) {
-            increaseItemQuality(i)
+        if (item.sellIn < 10) {
+            increaseQuality(item)
         }
 
-        if (items[i].sellIn < 5) {
-            increaseItemQuality(i)
-        }
-    }
-
-    private fun decreaseSellIn(i: Int) {
-        if (!itemIsSulfuras(i)) {
-            items[i].sellIn = items[i].sellIn - 1
+        if (item.sellIn < 5) {
+            increaseQuality(item)
         }
     }
 
-    private fun itemIsBrie(i: Int) = items[i].name.equals("Aged Brie")
-    private fun itemIsConjured(i: Int) = items[i].name.equals("Conjured Mana Cake")
-
-    private fun itemIsSulfuras(i: Int) = items[i].name.equals("Sulfuras, Hand of Ragnaros")
-
-    private fun itemIsBackstagePass(i: Int) = items[i].name.equals("Backstage passes to a TAFKAL80ETC concert")
-
-    private fun decreaseItemQuality(i: Int) {
-        if (items[i].quality > 0 && !itemIsSulfuras(i)) {
-            items[i].quality = items[i].quality - 1
+    private fun decreaseSellIn(item: Item) {
+        if (!isSulfuras(item)) {
+            item.sellIn = item.sellIn - 1
         }
     }
 
-    private fun increaseItemQuality(i: Int) {
-        if (itemQualityIsNotMax(i)) {
-            items[i].quality = items[i].quality + 1
+    private fun isBrie(item: Item) = item.name.equals("Aged Brie")
+    private fun isConjured(item: Item) = item.name.equals("Conjured Mana Cake")
+
+    private fun isSulfuras(item: Item) = item.name.equals("Sulfuras, Hand of Ragnaros")
+
+    private fun isBackstagePass(item: Item) = item.name.equals("Backstage passes to a TAFKAL80ETC concert")
+
+    private fun decreaseQuality(item: Item) {
+        if (item.quality > 0) {
+            item.quality = item.quality - 1
         }
     }
 
-    private fun itemQualityIsNotMax(i: Int) = items[i].quality < 50
+    private fun increaseQuality(item: Item) {
+        if (qualityIsNotMax(item)) {
+            item.quality = item.quality + 1
+        }
+    }
+
+    private fun qualityIsNotMax(item: Item) = item.quality < 50
 
 }
 
