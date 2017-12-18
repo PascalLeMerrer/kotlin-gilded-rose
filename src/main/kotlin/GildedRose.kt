@@ -15,6 +15,10 @@ class GildedRose(var items: Array<Item>) {
                         increaseItemQuality(i)
                     }
                 }
+                itemIsConjured(i) -> {
+                    decreaseItemQuality(i)
+                    decreaseItemQuality(i)
+                }
                 else -> {
                     decreaseItemQuality(i)
                     if (items[i].sellIn < 0) {
@@ -49,6 +53,7 @@ class GildedRose(var items: Array<Item>) {
     }
 
     private fun itemIsBrie(i: Int) = items[i].name.equals("Aged Brie")
+    private fun itemIsConjured(i: Int) = items[i].name.equals("Conjured Mana Cake")
 
     private fun itemIsSulfuras(i: Int) = items[i].name.equals("Sulfuras, Hand of Ragnaros")
 

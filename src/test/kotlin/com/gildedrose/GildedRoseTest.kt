@@ -15,6 +15,20 @@ class GildedRoseTests : StringSpec() {
             item.name shouldBe "foo"
         }
 
+        "updating a conjured item should decrease its quality twice as fast as other products" {
+            val items = arrayOf<Item>(Item("Conjured Mana Cake", 10, 6))
+            val app = GildedRose(items)
+            app.updateQuality()
+            val item = app.items.get(0)
+            item.name shouldBe "Conjured Mana Cake"
+            item.sellIn shouldBe 9
+            item.quality shouldBe 4
+            app.updateQuality()
+            item.name shouldBe "Conjured Mana Cake"
+            item.sellIn shouldBe 8
+            item.quality shouldBe 2
+        }
+
 
         "new version should produce the same results than the legacy one " {
             val items = arrayOf(Item("+5 Dexterity Vest", 10, 20), //
