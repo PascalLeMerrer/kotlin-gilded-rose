@@ -9,16 +9,8 @@ class GildedRose(var items: Array<Item>) {
 
             when {
                 isBackstagePass(item) -> updateBackstagePassQuality(item)
-                isBrie(item) -> {
-                    increaseQuality(item)
-                    if (item.sellIn < 0) {
-                        increaseQuality(item)
-                    }
-                }
-                isConjured(item) -> {
-                    decreaseQuality(item)
-                    decreaseQuality(item)
-                }
+                isBrie(item) -> updateBrieQuality(item)
+                isConjured(item) -> updateConjuredItemQuality(item)
                 isSulfuras(item) -> {}
                 else -> {
                     decreaseQuality(item)
@@ -27,6 +19,18 @@ class GildedRose(var items: Array<Item>) {
                     }
                 }
             }
+        }
+    }
+
+    private fun updateConjuredItemQuality(item: Item) {
+        decreaseQuality(item)
+        decreaseQuality(item)
+    }
+
+    private fun updateBrieQuality(item: Item) {
+        increaseQuality(item)
+        if (item.sellIn < 0) {
+            increaseQuality(item)
         }
     }
 
@@ -75,4 +79,3 @@ class GildedRose(var items: Array<Item>) {
     private fun qualityIsNotMax(item: Item) = item.quality < 50
 
 }
-
