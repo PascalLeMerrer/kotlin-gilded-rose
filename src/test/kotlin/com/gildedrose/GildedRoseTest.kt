@@ -39,22 +39,17 @@ class GildedRoseTests : StringSpec() {
             )
             val app = GildedRose(items)
 
-            var legacyItems = emptyArray<Item>()
-
-            for(item in items) {
-                legacyItems = legacyItems.plus(item.copy())
-            }
-            
+            val legacyItems = items.map { it.copy() }.toTypedArray()
             val legacyApp = LegacyGildedRose(legacyItems)
 
             for (day in 0..999) {
                 app.updateQuality()
                 legacyApp.updateQuality()
 
-                for ((index, item) in items.withIndex()) {
-                    item.name shouldBe legacyItems.get(index).name
-                    item.quality shouldBe legacyItems.get(index).quality
-                    item.sellIn shouldBe legacyItems.get(index).sellIn
+                for ((item, legacyItem) in items.zip(legacyItems)) {
+                    item.name shouldBe legacyItem.name
+                    item.quality shouldBe legacyItem.quality
+                    item.sellIn shouldBe legacyItem.sellIn
                 }
             }
         }
